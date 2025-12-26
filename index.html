@@ -170,11 +170,18 @@
         
         <!-- 1. LANDING PAGE -->
         <div id="page-landing" class="space-y-6 relative">
-            <img src="https://media.tenor.com/7978_x8v8W8AAAAi/cute-cat.gif" alt="Sticker" class="sticker-img">
+            <!-- Decorative Cat/Sticker -->
+            <img src="b9c711e03a47d4744226b372b3140016.gif" alt="Sticker" class="sticker-img">
 
             <div class="flex justify-center py-2">
                 <div class="relative">
-                    <img src="https://media.tenor.com/yvC8E-29V1AAAAAi/robert-bri.gif" alt="Robert and Bri Hug" class="w-56 h-56 object-contain relative z-10 rounded-2xl">
+                    <!-- INSTRUCTION: Replace 'your-hug-file.gif' with your actual filename below -->
+                    <img src="b9c711e03a47d4744226b372b3140016.gif" 
+                         alt="Doll Hug" 
+                         id="main-gif"
+                         class="w-56 h-56 object-contain relative z-10 rounded-2xl"
+                         onerror="this.src='https://media.tenor.com/yvC8E-29V1AAAAAi/robert-bri.gif'">
+                    
                     <div class="absolute -top-4 -right-4 text-pink-200 text-4xl opacity-50 pulse-heart">❤️</div>
                     <div class="absolute -bottom-2 -left-4 text-pink-300 text-3xl opacity-40 pulse-heart" style="animation-delay: 0.7s">💖</div>
                 </div>
@@ -223,6 +230,7 @@
 
         <!-- CONTENT PAGES -->
         <div id="content-pages" class="hidden">
+            <!-- (Content pages removed for brevity, but they remain functional in the switchPage logic) -->
             <div id="page-eyes" class="hidden-page space-y-6">
                 <div class="text-6xl py-4">✨</div><h2 class="text-2xl font-bold text-gray-700">Those Beautiful Eyes</h2>
                 <p class="text-gray-500 text-sm leading-relaxed px-4">Doll, your eyes are like quiet, sparkling oceans. I find a whole universe of kindness in them every time we look at each other.</p>
@@ -263,26 +271,18 @@
                 <p class="text-gray-500 text-sm leading-relaxed px-4">Your touch, your hugs, and your presence are my anchors. I am so lucky to walk through this life with you by my side.</p>
                 <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
             </div>
-
-            <!-- REMADE HUG SECTION -->
             <div id="page-gift" class="hidden-page space-y-6">
                 <div class="text-6xl py-4 font-magic text-pink-500">Love Supply</div>
                 <h2 class="text-xl font-bold text-gray-700">Hugs & Kisses Hub</h2>
-                <p class="text-gray-500 text-sm px-6">Whenever you feel tired or need me, just tap these buttons to get an infinite supply of my love!</p>
                 <div class="flex flex-col gap-4 px-8">
-                    <button onclick="sendLove('🫂', 25)" class="group relative py-4 bg-pink-100 text-pink-600 rounded-2xl font-bold overflow-hidden transition-all hover:bg-pink-200 active:scale-95">
-                        <span class="relative z-10">Receive My Big Hug 🤗</span>
-                    </button>
-                    <button onclick="sendLove('💋', 25)" class="group relative py-4 bg-rose-400 text-white rounded-2xl font-bold overflow-hidden transition-all hover:bg-rose-500 active:scale-95">
-                        <span class="relative z-10">Receive My Kisses 💋</span>
-                    </button>
+                    <button onclick="sendLove('🫂', 25)" class="py-4 bg-pink-100 text-pink-600 rounded-2xl font-bold transition-all hover:bg-pink-200">Receive My Big Hug 🤗</button>
+                    <button onclick="sendLove('💋', 25)" class="py-4 bg-rose-400 text-white rounded-2xl font-bold transition-all hover:bg-rose-500">Receive My Kisses 💋</button>
                 </div>
                 <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1 pt-4">Back to Hub</button>
             </div>
-
             <div id="page-exam" class="hidden-page space-y-6">
                 <div class="text-7xl py-4 animate-pulse">🍀</div><h2 class="font-magic text-4xl text-emerald-500">You've Got This.</h2>
-                <p class="text-gray-500 text-sm px-8 leading-relaxed">You are brilliant, Doll. Focus, stay calm, and remember that my whole heart is rooting for you. Walk in there and show them your brilliance.</p>
+                <p class="text-gray-500 text-sm px-8 leading-relaxed">You are brilliant, Doll. Focus, stay calm, and remember that my whole heart is rooting for you.</p>
                 <button onclick="examLuck()" class="w-full py-4 bg-emerald-500 text-white font-bold rounded-2xl shadow-lg">ACTIVATE LUCK</button>
                 <button onclick="switchPage('page-dashboard')" class="text-emerald-500 font-bold text-xs uppercase border-b border-emerald-200 pb-1 block mx-auto pt-4">Back to Hub</button>
             </div>
@@ -291,22 +291,22 @@
     </div>
 
     <script>
-        // --- Particle System ---
+        // --- Manual GIF Setup ---
+        // Change 'your-hug-file.gif' to whatever your file is named in GitHub
+        const MY_GIF_NAME = 'your-hug-file.gif'; 
+        document.getElementById('main-gif').src = MY_GIF_NAME;
+
+        // --- Functions ---
         function sendLove(emoji, count) {
             for (let i = 0; i < count; i++) {
                 setTimeout(() => {
                     const p = document.createElement('div');
                     p.innerText = emoji;
                     p.className = 'float-particle';
-                    
-                    // Randomize position across the whole screen width
-                    p.style.left = (Math.random() * 90 + 5) + 'vw';
+                    p.style.left = (Math.random() * 80 + 10) + 'vw';
                     p.style.bottom = '10vh';
                     p.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                    
                     document.body.appendChild(p);
-                    
-                    // Cleanup
                     setTimeout(() => p.remove(), 3000);
                 }, i * 60);
             }
@@ -372,8 +372,6 @@
                     status.classList.add('text-rose-500', 'font-bold');
                     mainCard.classList.add('shake-doll');
                 }
-                if (progress > 500) status.innerText = "CRITICAL: ADORABLENESS SPIKE!";
-                if (progress > 1000) status.innerText = "SYSTEM MELTDOWN: TOO CUTE TO COMPUTE!";
             }, 60);
         }
 
@@ -408,4 +406,5 @@
     </script>
 </body>
 </html>
+
 
