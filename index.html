@@ -142,16 +142,6 @@
         }
 
         .btn-action:hover { @apply bg-rose-500; }
-        
-        .sticker-img {
-            @apply w-28 h-28 object-contain absolute -top-8 -left-6 z-20 pointer-events-none drop-shadow-lg;
-            animation: float-sticker 3s infinite ease-in-out;
-        }
-
-        @keyframes float-sticker {
-            0%, 100% { transform: translateY(0) rotate(-5deg); }
-            50% { transform: translateY(-8px) rotate(5deg); }
-        }
 
         .shake-doll { animation: dollShake 0.1s infinite; }
         @keyframes dollShake {
@@ -168,19 +158,13 @@
 
     <div id="main-card" class="glass-container text-center">
         
-        <!-- 1. LANDING PAGE -->
         <div id="page-landing" class="space-y-6 relative">
-            <!-- Decorative Cat/Sticker -->
-            <img
-
             <div class="flex justify-center py-2">
                 <div class="relative">
-                    <!-- INSTRUCTION: Replace 'your-hug-file.gif' with your actual filename below -->
                     <img src="b9c711e03a47d4744226b372b3140016.gif" 
                          alt="Doll Hug" 
                          id="main-gif"
-                         class="w-56 h-56 object-contain relative z-10 rounded-2xl"
-                         onerror="this.src='b9c711e03a47d4744226b372b3140016.gif'">
+                         class="w-56 h-56 object-contain relative z-10 rounded-2xl">
                     
                     <div class="absolute -top-4 -right-4 text-pink-200 text-4xl opacity-50 pulse-heart">❤️</div>
                     <div class="absolute -bottom-2 -left-4 text-pink-300 text-3xl opacity-40 pulse-heart" style="animation-delay: 0.7s">💖</div>
@@ -197,7 +181,6 @@
             </div>
         </div>
 
-        <!-- 2. LOADING PAGE -->
         <div id="page-loading" class="hidden-page space-y-4 py-8 relative">
             <div class="flex justify-center mb-4"><div class="text-6xl pulse-heart">❤️</div></div>
             <h2 class="text-xl font-bold text-gray-600 font-magic text-4xl">Measuring Cuteness...</h2>
@@ -206,7 +189,6 @@
             <div id="percent-text" class="text-4xl font-light text-rose-400 font-magic">0%</div>
         </div>
 
-        <!-- 3. DASHBOARD -->
         <div id="page-dashboard" class="hidden-page flex flex-col h-full overflow-hidden">
             <div class="mb-4">
                 <h1 class="font-magic text-5xl text-rose-400 mb-1">Sanctuary</h1>
@@ -228,9 +210,7 @@
             <div class="mt-auto pt-2 text-[10px] text-gray-300 font-bold tracking-widest uppercase">Welcome home, Doll.</div>
         </div>
 
-        <!-- CONTENT PAGES -->
         <div id="content-pages" class="hidden">
-            <!-- (Content pages removed for brevity, but they remain functional in the switchPage logic) -->
             <div id="page-eyes" class="hidden-page space-y-6">
                 <div class="text-6xl py-4">✨</div><h2 class="text-2xl font-bold text-gray-700">Those Beautiful Eyes</h2>
                 <p class="text-gray-500 text-sm leading-relaxed px-4">Doll, your eyes are like quiet, sparkling oceans. I find a whole universe of kindness in them every time we look at each other.</p>
@@ -291,11 +271,6 @@
     </div>
 
     <script>
-        // --- Manual GIF Setup ---
-        // Change 'your-hug-file.gif' to whatever your file is named in GitHub
-        const MY_GIF_NAME = 'your-hug-file.gif'; 
-        document.getElementById('main-gif').src = MY_GIF_NAME;
-
         // --- Functions ---
         function sendLove(emoji, count) {
             for (let i = 0; i < count; i++) {
@@ -406,5 +381,4 @@
     </script>
 </body>
 </html>
-
 
