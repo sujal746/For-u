@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Favorite Doll ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --doll-pink: #fff1f2;
+            --doll-accent: #fda4af;
+            --text-main: #4b5563;
+        }
+
+        body {
+            background: #fffafa;
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .font-magic { font-family: 'Dancing Script', cursive; }
+
+        /* --- Minimal Background --- */
+        .magic-bg {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #ffffff 0%, #fff5f6 100%);
+        }
+
+        /* --- Heart Rain Effect --- */
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            animation: heartFall linear forwards;
+        }
+
+        @keyframes heartFall {
+            0% { transform: translateY(-10vh) scale(0); opacity: 0; }
+            20% { opacity: 0.6; transform: translateY(10vh) scale(1.2); }
+            100% { transform: translateY(110vh) scale(1); opacity: 0; }
+        }
+
+        /* --- Hugs & Kisses Animation --- */
+        .float-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            animation: floatUp 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; transform: translateY(-20vh) scale(1.2) rotate(10deg); }
+            100% { transform: translateY(-100vh) scale(1) rotate(-20deg); opacity: 0; }
+        }
+
+        /* --- Main Content Container --- */
+        .glass-container {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(25px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 25px 50px -12px rgba(251, 113, 133, 0.15);
+            width: 90%;
+            max-width: 460px;
+            max-height: 85vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.5s ease;
+        }
+
+        /* --- Custom Progress Bar (Cuteness Meter) --- */
+        .gauge-track {
+            height: 18px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            margin: 1.5rem 0;
+            border: 2px solid #fff;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fda4af, #f43f5e);
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+        }
+
+        /* --- Pulsing Heart Loader --- */
+        .pulse-heart {
+            animation: heartPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes heartPulse {
+            0% { transform: scale(1); filter: drop-shadow(0 0 0px #fda4af); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 15px #fda4af); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 0px #fda4af); }
+        }
+
+        /* --- Dashboard Grid --- */
+        .scrollable-content {
+            overflow-y: auto;
+            padding: 10px 5px;
+            mask-image: linear-gradient(to bottom, transparent, black 5%, black 95%, transparent);
+        }
+
+        .scrollable-content::-webkit-scrollbar { width: 3px; }
+        .scrollable-content::-webkit-scrollbar-thumb { background: #fee2e2; border-radius: 10px; }
+
+        .portal-box {
+            @apply aspect-square bg-white rounded-2xl border-2 border-rose-50 flex flex-col items-center justify-center gap-2 transition-all duration-300 relative overflow-hidden;
+            box-shadow: 0 6px 0 0 rgba(251, 113, 133, 0.1);
+        }
+
+        .portal-box:hover {
+            @apply border-rose-200 bg-rose-50/30;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(251, 113, 133, 0.2);
+        }
+
+        .portal-icon { @apply text-4xl mb-1 z-10; }
+        .portal-text { @apply text-[11px] font-semibold tracking-wide text-gray-500 uppercase z-10; }
+
+        /* --- UI Transitions --- */
+        .hidden-page { display: none; opacity: 0; }
+        .fade-in { animation: fadeIn 0.8s forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
+        .btn-action {
+            @apply w-full py-4 bg-rose-400 text-white font-bold rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-2;
+            box-shadow: 0 10px 15px -3px rgba(251, 113, 133, 0.2);
+        }
+
+        .btn-action:hover { @apply bg-rose-500; }
+        
+        .sticker-img {
+            @apply w-28 h-28 object-contain absolute -top-8 -left-6 z-20 pointer-events-none drop-shadow-lg;
+            animation: float-sticker 3s infinite ease-in-out;
+        }
+
+        @keyframes float-sticker {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+        }
+
+        .shake-doll { animation: dollShake 0.1s infinite; }
+        @keyframes dollShake {
+            0% { transform: translate(1px, 1px); }
+            50% { transform: translate(-2px, -1px); }
+            100% { transform: translate(1px, -1px); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="magic-bg"></div>
+    <div id="heart-rain-container"></div>
+
+    <div id="main-card" class="glass-container text-center">
+        
+        <!-- 1. LANDING PAGE -->
+        <div id="page-landing" class="space-y-6 relative">
+            <img src="https://media.tenor.com/7978_x8v8W8AAAAi/cute-cat.gif" alt="Sticker" class="sticker-img">
+
+            <div class="flex justify-center py-2">
+                <div class="relative">
+                    <img src="https://media.tenor.com/yvC8E-29V1AAAAAi/robert-bri.gif" alt="Robert and Bri Hug" class="w-56 h-56 object-contain relative z-10 rounded-2xl">
+                    <div class="absolute -top-4 -right-4 text-pink-200 text-4xl opacity-50 pulse-heart">❤️</div>
+                    <div class="absolute -bottom-2 -left-4 text-pink-300 text-3xl opacity-40 pulse-heart" style="animation-delay: 0.7s">💖</div>
+                </div>
+            </div>
+            
+            <div class="space-y-2">
+                <h1 class="font-magic text-6xl text-rose-400">Hi, Doll.</h1>
+                <p class="text-gray-400 text-sm font-medium leading-relaxed px-6 italic">"Every beat of my heart is a whisper of your name."</p>
+            </div>
+
+            <div class="pt-6">
+                <button onclick="startMeasure()" class="btn-action">Measure Cuteness ✨</button>
+            </div>
+        </div>
+
+        <!-- 2. LOADING PAGE -->
+        <div id="page-loading" class="hidden-page space-y-4 py-8 relative">
+            <div class="flex justify-center mb-4"><div class="text-6xl pulse-heart">❤️</div></div>
+            <h2 class="text-xl font-bold text-gray-600 font-magic text-4xl">Measuring Cuteness...</h2>
+            <p class="text-gray-400 text-xs italic tracking-widest" id="load-status">Scanning Adorableness Coordinates...</p>
+            <div class="gauge-track"><div id="bar" class="gauge-fill"><div class="absolute right-0 top-1/2 -translate-y-1/2 text-white text-[10px] pr-1">❤️</div></div></div>
+            <div id="percent-text" class="text-4xl font-light text-rose-400 font-magic">0%</div>
+        </div>
+
+        <!-- 3. DASHBOARD -->
+        <div id="page-dashboard" class="hidden-page flex flex-col h-full overflow-hidden">
+            <div class="mb-4">
+                <h1 class="font-magic text-5xl text-rose-400 mb-1">Sanctuary</h1>
+                <p class="text-gray-400 text-[10px] uppercase tracking-[0.2em] font-bold">A World Built of Love</p>
+            </div>
+            
+            <div class="scrollable-content grid grid-cols-2 gap-4 pb-4">
+                <button onclick="switchPage('page-eyes')" class="portal-box"><span class="portal-icon">✨</span><span class="portal-text">Your Eyes</span></button>
+                <button onclick="switchPage('page-lips')" class="portal-box"><span class="portal-icon">🌸</span><span class="portal-text">Your Lips</span></button>
+                <button onclick="switchPage('page-hairs')" class="portal-box"><span class="portal-icon">🍃</span><span class="portal-text">Your Hair</span></button>
+                <button onclick="switchPage('page-smile')" class="portal-box"><span class="portal-icon">☀️</span><span class="portal-text">Your Smile</span></button>
+                <button onclick="switchPage('page-hands')" class="portal-box"><span class="portal-icon">🧸</span><span class="portal-text">Your Hands</span></button>
+                <button onclick="switchPage('page-heart')" class="portal-box"><span class="portal-icon">💎</span><span class="portal-text">Pure Heart</span></button>
+                <button onclick="switchPage('page-inch')" class="portal-box"><span class="portal-icon">🕊️</span><span class="portal-text">Every Inch</span></button>
+                <button onclick="switchPage('page-love')" class="portal-box"><span class="portal-icon">☁️</span><span class="portal-text">Our Love</span></button>
+                <button onclick="switchPage('page-gift')" class="portal-box bg-rose-50/20 border-rose-100"><span class="portal-icon">🎁</span><span class="portal-text">My Hugs</span></button>
+                <button onclick="switchPage('page-exam')" class="portal-box bg-slate-50 border-slate-100"><span class="portal-icon">🍀</span><span class="portal-text">Exam Luck</span></button>
+            </div>
+            <div class="mt-auto pt-2 text-[10px] text-gray-300 font-bold tracking-widest uppercase">Welcome home, Doll.</div>
+        </div>
+
+        <!-- CONTENT PAGES -->
+        <div id="content-pages" class="hidden">
+            <div id="page-eyes" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">✨</div><h2 class="text-2xl font-bold text-gray-700">Those Beautiful Eyes</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">Doll, your eyes are like quiet, sparkling oceans. I find a whole universe of kindness in them every time we look at each other.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-lips" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">🌸</div><h2 class="text-2xl font-bold text-gray-700">Your Sweet Lips</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">Your smile is the quietest, most beautiful language I know. Every word you speak and every laugh you share makes my world infinitely softer.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-hairs" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">🍃</div><h2 class="text-2xl font-bold text-gray-700">Your Perfect Hair</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">Soft, fragrant, and always framing your face like a masterpiece. I love every single strand of you.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-smile" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">☀️</div><h2 class="text-2xl font-bold text-gray-700">That Doll Smile</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">It's my favorite sunrise. No matter how the day starts, your smile is the only light I ever need to find my way.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-hands" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">🧸</div><h2 class="text-2xl font-bold text-gray-700">Your Gentle Hands</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">Holding your hand feels like a silent promise that everything will be okay. They are the warmest place in the world for me.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-heart" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">💎</div><h2 class="text-2xl font-bold text-gray-700">Your Pure Heart</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">The rarest treasure I've ever found. Your kindness and purity are the reasons I feel so safe and loved every single day.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-inch" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">🕊️</div><h2 class="text-2xl font-bold text-gray-700">Every Single Inch</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">From the top of your head to the tips of your toes—you are perfection. Every inch of you is a gift I cherish.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+            <div id="page-love" class="hidden-page space-y-6">
+                <div class="text-6xl py-4">☁️</div><h2 class="text-2xl font-bold text-gray-700">Our Quiet Love</h2>
+                <p class="text-gray-500 text-sm leading-relaxed px-4">Your touch, your hugs, and your presence are my anchors. I am so lucky to walk through this life with you by my side.</p>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1">Back to Hub</button>
+            </div>
+
+            <!-- REMADE HUG SECTION -->
+            <div id="page-gift" class="hidden-page space-y-6">
+                <div class="text-6xl py-4 font-magic text-pink-500">Love Supply</div>
+                <h2 class="text-xl font-bold text-gray-700">Hugs & Kisses Hub</h2>
+                <p class="text-gray-500 text-sm px-6">Whenever you feel tired or need me, just tap these buttons to get an infinite supply of my love!</p>
+                <div class="flex flex-col gap-4 px-8">
+                    <button onclick="sendLove('🫂', 25)" class="group relative py-4 bg-pink-100 text-pink-600 rounded-2xl font-bold overflow-hidden transition-all hover:bg-pink-200 active:scale-95">
+                        <span class="relative z-10">Receive My Big Hug 🤗</span>
+                    </button>
+                    <button onclick="sendLove('💋', 25)" class="group relative py-4 bg-rose-400 text-white rounded-2xl font-bold overflow-hidden transition-all hover:bg-rose-500 active:scale-95">
+                        <span class="relative z-10">Receive My Kisses 💋</span>
+                    </button>
+                </div>
+                <button onclick="switchPage('page-dashboard')" class="text-rose-400 font-bold text-xs uppercase border-b border-rose-200 pb-1 pt-4">Back to Hub</button>
+            </div>
+
+            <div id="page-exam" class="hidden-page space-y-6">
+                <div class="text-7xl py-4 animate-pulse">🍀</div><h2 class="font-magic text-4xl text-emerald-500">You've Got This.</h2>
+                <p class="text-gray-500 text-sm px-8 leading-relaxed">You are brilliant, Doll. Focus, stay calm, and remember that my whole heart is rooting for you. Walk in there and show them your brilliance.</p>
+                <button onclick="examLuck()" class="w-full py-4 bg-emerald-500 text-white font-bold rounded-2xl shadow-lg">ACTIVATE LUCK</button>
+                <button onclick="switchPage('page-dashboard')" class="text-emerald-500 font-bold text-xs uppercase border-b border-emerald-200 pb-1 block mx-auto pt-4">Back to Hub</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- Particle System ---
+        function sendLove(emoji, count) {
+            for (let i = 0; i < count; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('div');
+                    p.innerText = emoji;
+                    p.className = 'float-particle';
+                    
+                    // Randomize position across the whole screen width
+                    p.style.left = (Math.random() * 90 + 5) + 'vw';
+                    p.style.bottom = '10vh';
+                    p.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    
+                    document.body.appendChild(p);
+                    
+                    // Cleanup
+                    setTimeout(() => p.remove(), 3000);
+                }, i * 60);
+            }
+        }
+
+        const heartContainer = document.getElementById('heart-rain-container');
+        const heartIcons = ['❤️', '💖', '🤍', '💕', '💗'];
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.innerText = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            const duration = Math.random() * 3 + 4;
+            heart.style.animationDuration = duration + 's';
+            heartContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+        setInterval(createHeart, 400);
+
+        let currentPageId = 'page-landing';
+        function switchPage(nextPageId) {
+            const current = document.getElementById(currentPageId);
+            const next = document.getElementById(nextPageId);
+            const contentParent = document.getElementById('content-pages');
+            current.style.opacity = '0';
+            setTimeout(() => {
+                current.style.display = 'none';
+                contentParent.classList.remove('hidden');
+                next.style.display = 'block';
+                setTimeout(() => {
+                    next.classList.add('fade-in');
+                    currentPageId = nextPageId;
+                }, 50);
+            }, 300);
+        }
+
+        function startMeasure() {
+            switchPage('page-loading');
+            let progress = 0;
+            const bar = document.getElementById('bar');
+            const pct = document.getElementById('percent-text');
+            const status = document.getElementById('load-status');
+            const mainCard = document.getElementById('main-card');
+            const interval = setInterval(() => {
+                if (progress < 100) progress += Math.random() * 4;
+                else if (progress < 600) progress += Math.random() * 40;
+                else progress += Math.random() * 200;
+                if (progress >= 4000) {
+                    clearInterval(interval);
+                    pct.innerText = "∞%";
+                    status.innerText = "Mathematical limits exceeded.";
+                    mainCard.classList.remove('shake-doll');
+                    for(let i=0; i<30; i++) setTimeout(() => sendLove('❤️', 1), i*50);
+                    setTimeout(() => switchPage('page-dashboard'), 1800);
+                    return;
+                }
+                bar.style.width = Math.min(progress, 100) + '%';
+                pct.innerText = Math.floor(progress) > 300 ? "∞%" : Math.floor(progress) + "%";
+                if (progress > 50) status.innerText = "Scanning Cuteness Index...";
+                if (progress > 100) {
+                    status.innerText = "WARNING: CUTENESS OVERLOADED!";
+                    status.classList.add('text-rose-500', 'font-bold');
+                    mainCard.classList.add('shake-doll');
+                }
+                if (progress > 500) status.innerText = "CRITICAL: ADORABLENESS SPIKE!";
+                if (progress > 1000) status.innerText = "SYSTEM MELTDOWN: TOO CUTE TO COMPUTE!";
+            }, 60);
+        }
+
+        function examLuck() {
+            sendLove('🍀', 30);
+            sendLove('✨', 20);
+            const btn = event.target;
+            btn.innerText = "SUCCESS ACTIVATED";
+            btn.classList.replace('bg-emerald-500', 'bg-amber-400');
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (Math.random() > 0.94) {
+                const s = document.createElement('div');
+                s.innerText = '❤️';
+                s.style.position = 'fixed';
+                s.style.left = e.clientX + 'px';
+                s.style.top = e.clientY + 'px';
+                s.style.pointerEvents = 'none';
+                s.style.fontSize = '12px';
+                s.style.opacity = '0.4';
+                s.style.zIndex = '2000';
+                document.body.appendChild(s);
+                setTimeout(() => {
+                    s.style.transition = 'all 1s ease-out';
+                    s.style.transform = `translate(${(Math.random()-0.5)*40}px, -40px) scale(0)`;
+                    s.style.opacity = '0';
+                    setTimeout(() => s.remove(), 1000);
+                }, 10);
+            }
+        });
+    </script>
+</body>
+</html>
+
